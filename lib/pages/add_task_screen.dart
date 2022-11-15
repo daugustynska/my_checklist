@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../blocs/bloc_exports.dart';
 import '../models/task.dart';
 import '../services/guid_gen.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({
@@ -37,10 +38,19 @@ class AddTaskScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                var task =
-                    Task(title: titleController.text, id: GUIDGen.generate());
-                context.read<TasksBloc>().add(AddTask(task: task));
-                Navigator.pop(context);
+                if (isValidTitle(titleController.text)) {
+                  var task =
+                      Task(title: titleController.text, id: GUIDGen.generate());
+                  context.read<TasksBloc>().add(AddTask(task: task));
+                  Navigator.pop(context);
+                } else {
+                  Flushbar(
+                    flushbarPosition: FlushbarPosition.BOTTOM,
+                    message:
+                        "'Title' field must not be empty or consist of only spaces.",
+                    duration: const Duration(seconds: 3),
+                  ).show(context);
+                }
               },
               child: const Text(
                 'Add',
@@ -50,5 +60,14 @@ class AddTaskScreen extends StatelessWidget {
         ),
       ]),
     );
+  }
+}
+
+bool isValidTitle(String string) {
+  String newString = string.replaceAll(' ', '');
+  if (newString.isEmpty) {
+    return false;
+  } else {
+    return true;
   }
 }
