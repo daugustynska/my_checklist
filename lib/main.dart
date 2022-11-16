@@ -6,14 +6,10 @@ import 'blocs/bloc_exports.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
-  );
+  HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: await getApplicationDocumentsDirectory());
 
-  HydratedBlocOverrides.runZoned(
-    () => runApp(const MyApp()),
-    storage: storage,
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: TasksScreen(),
+        home: const TasksScreen(),
       ),
     );
   }
