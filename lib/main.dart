@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_checklist/pages/tasks_screen.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'package:my_checklist/pages/tasks_screen.dart';
+
 import 'blocs/bloc_exports.dart';
 
 void main() async {

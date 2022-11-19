@@ -7,8 +7,8 @@ The aim of this project is to provide the user with a tool to manage daily tasks
 ## Technologies
 Project is created with:
 * Flutter SDK: 2.18.2 - 3.3.6 
-* BLoC: 8.0.1
-* Hydrated BLoC: 8.1.0
+* BLoC: 8.1.1
+* Hydrated BLoC: 9.0.0
 
 ## Launch
 The project can be run locally on emulator connected to newest version of Visual Studio Code or Android Studio.

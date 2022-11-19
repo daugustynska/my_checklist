@@ -3,22 +3,24 @@ import 'package:flutter/material.dart';
 
 import '../blocs/bloc_exports.dart';
 import '../models/task.dart';
-import '../services/guid_gen.dart';
 import '../utilities/logic.dart';
 
-class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({
+class EditTaskScreen extends StatelessWidget {
+  final Task taskToEdit;
+  const EditTaskScreen({
     Key? key,
+    required this.taskToEdit,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController titleController = TextEditingController();
+    TextEditingController titleController =
+        TextEditingController(text: taskToEdit.title);
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(children: [
         const Text(
-          'Add a new task',
+          'Edit task',
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 24),
         ),
@@ -43,9 +45,13 @@ class AddTaskScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 if (isValidTitle(titleController.text)) {
-                  var task =
-                      Task(title: titleController.text, id: GUIDGen.generate());
-                  context.read<TasksBloc>().add(AddTask(task: task));
+                  var editedTask = Task(
+                      title: titleController.text,
+                      id: taskToEdit.id,
+                      isDone: false,
+                      isDeleted: false);
+                  context.read<TasksBloc>().add(
+                      EditTask(taskToEdit: taskToEdit, editedTask: editedTask));
                   Navigator.pop(context);
                 } else {
                   Flushbar(
@@ -57,7 +63,7 @@ class AddTaskScreen extends StatelessWidget {
                 }
               },
               child: const Text(
-                'Add',
+                'Save',
               ),
             ),
           ],
