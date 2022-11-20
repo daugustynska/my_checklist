@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:my_checklist/blocs/bloc_exports.dart';
 import '../models/task.dart';
@@ -34,26 +35,41 @@ class TasksList extends StatelessWidget {
           itemBuilder: (context, index) {
             var task = tasksList[index];
             return ListTile(
-              title: Text(task.title),
-              subtitle: task.description.isNotEmpty
-                  ? Text(task.description)
-                  : const Text('(no description)'),
-              minVerticalPadding: 10,
-              leading: Checkbox(
-                value: task.isDone,
-                onChanged: (value) {
-                  context.read<TasksBloc>().add(UpdateTask(task: task));
-                },
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.edit),
-                splashRadius: 20.0,
-                tooltip: "Edit Task",
-                onPressed: (() => _editTask(context, task)),
-              ),
-              onLongPress: (() =>
-                  context.read<TasksBloc>().add(DeleteTask(task: task))),
-            );
+                title: Text(task.title),
+                subtitle: task.description.isNotEmpty
+                    ? Text(task.description)
+                    : const Text('(no description)'),
+                minVerticalPadding: 10,
+                leading: Checkbox(
+                  value: task.isDone,
+                  onChanged: (value) {
+                    context.read<TasksBloc>().add(UpdateTask(task: task));
+                  },
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.edit),
+                  splashRadius: 20.0,
+                  tooltip: "Edit Task",
+                  onPressed: (() => _editTask(context, task)),
+                ),
+                onLongPress: (() => Flushbar(
+                      flushbarPosition: FlushbarPosition.BOTTOM,
+                      padding: const EdgeInsets.only(
+                          left: 25, right: 30, top: 20, bottom: 20),
+                      message: "Delete this task?",
+                      mainButton: OutlinedButton(
+                        style: const ButtonStyle(
+                            foregroundColor:
+                                MaterialStatePropertyAll<Color>(Colors.white),
+                            backgroundColor:
+                                MaterialStatePropertyAll<Color>(Colors.red)),
+                        onPressed: () {
+                          context.read<TasksBloc>().add(DeleteTask(task: task));
+                        },
+                        child: const Text("Confirm"),
+                      ),
+                      duration: const Duration(seconds: 2),
+                    ).show(context)));
           }),
     );
   }
