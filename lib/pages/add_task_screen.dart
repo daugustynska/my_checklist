@@ -14,6 +14,7 @@ class AddTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController titleController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(children: [
@@ -33,6 +34,16 @@ class AddTaskScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
+        TextField(
+          autofocus: true,
+          controller: descriptionController,
+          maxLength: 200,
+          decoration: const InputDecoration(
+            label: Text('Description'),
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -43,8 +54,10 @@ class AddTaskScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 if (isValidTitle(titleController.text)) {
-                  var task =
-                      Task(title: titleController.text, id: GUIDGen.generate());
+                  var task = Task(
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      id: GUIDGen.generate());
                   context.read<TasksBloc>().add(AddTask(task: task));
                   Navigator.pop(context);
                 } else {

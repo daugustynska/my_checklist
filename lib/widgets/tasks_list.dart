@@ -35,6 +35,10 @@ class TasksList extends StatelessWidget {
             var task = tasksList[index];
             return ListTile(
               title: Text(task.title),
+              subtitle: task.description.isNotEmpty
+                  ? Text(task.description)
+                  : const Text('(no description)'),
+              minVerticalPadding: 10,
               leading: Checkbox(
                 value: task.isDone,
                 onChanged: (value) {

@@ -16,6 +16,8 @@ class EditTaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController titleController =
         TextEditingController(text: taskToEdit.title);
+    TextEditingController descriptionController =
+        TextEditingController(text: taskToEdit.description);
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(children: [
@@ -35,6 +37,16 @@ class EditTaskScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
+        TextField(
+          autofocus: true,
+          controller: descriptionController,
+          maxLength: 200,
+          decoration: const InputDecoration(
+            label: Text('Description'),
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -47,6 +59,7 @@ class EditTaskScreen extends StatelessWidget {
                 if (isValidTitle(titleController.text)) {
                   var editedTask = Task(
                       title: titleController.text,
+                      description: descriptionController.text,
                       id: taskToEdit.id,
                       isDone: false,
                       isDeleted: false);
