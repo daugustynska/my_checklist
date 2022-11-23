@@ -20,7 +20,7 @@ class TasksList extends StatelessWidget {
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: EditTaskScreen(
-            taskToEdit: task, //task
+            taskToEdit: task,
           ),
         ),
       ),

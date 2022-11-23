@@ -38,6 +38,9 @@ class _TasksScreenState extends State<TasksScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               //calendar here
+              Text(
+                "Progress: ${state.completedTasks.length}/${state.allTasks.length} (${state.completedTasks.length / state.allTasks.length * 100} %)",
+              ),
               TasksList(tasksList: tasksList)
             ],
           ),

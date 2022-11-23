@@ -16,6 +16,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     final state = this.state;
 
     emit(TasksState(
+      completedTasks: state.completedTasks,
       allTasks: List.from(state.allTasks)..add(event.task),
     ));
   }
@@ -25,10 +26,16 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     final task = event.taskToEdit;
     final int index = state.allTasks.indexOf(task);
 
+    List<Task> completedTasks = List.from(state.completedTasks)..remove(task);
+    List<Task> allTasks = List.from(state.allTasks)
+      ..remove(task)
+      ..insert(index, event.editedTask);
+
+    task.isDone == true ? completedTasks.remove(task) : completedTasks;
+
     emit(TasksState(
-      allTasks: List.from(state.allTasks)
-        ..remove(event.taskToEdit)
-        ..insert(index, event.editedTask),
+      completedTasks: completedTasks,
+      allTasks: allTasks,
     ));
   }
 
@@ -37,18 +44,34 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     final task = event.task;
     final int index = state.allTasks.indexOf(task);
 
+    List<Task> completedTasks = List.from(state.completedTasks)..remove(task);
     List<Task> allTasks = List.from(state.allTasks)..remove(task);
-    task.isDone == false
-        ? allTasks.insert(index, task.copyWith(isDone: true))
-        : allTasks.insert(index, task.copyWith(isDone: false));
 
-    emit(TasksState(allTasks: allTasks));
+    task.isDone == false
+        ? {
+            completedTasks.insert(0, task.copyWith(isDone: true)),
+            allTasks.insert(index, task.copyWith(isDone: true)),
+          }
+        : {
+            completedTasks.remove(task),
+            allTasks.insert(index, task.copyWith(isDone: false)),
+          };
+
+    emit(TasksState(completedTasks: completedTasks, allTasks: allTasks));
   }
 
   void _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) {
     final state = this.state;
+    final task = event.task;
+
+    List<Task> completedTasks = List.from(state.completedTasks);
+    List<Task> allTasks = List.from(state.allTasks)..remove(event.task);
+
+    task.isDone == true ? completedTasks.remove(task) : completedTasks;
+
     emit(TasksState(
-      allTasks: List.from(state.allTasks)..remove(event.task),
+      completedTasks: completedTasks,
+      allTasks: allTasks,
     ));
   }
 
