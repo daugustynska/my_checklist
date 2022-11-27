@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_checklist/pages/calendar_screen.dart';
 import 'package:my_checklist/widgets/progress_bar.dart';
 import '../blocs/bloc_exports.dart';
 import '../models/task.dart';
@@ -38,11 +39,63 @@ class _TasksScreenState extends State<TasksScreen> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              //calendar here
+              Divider(height: 3, thickness: 3, color: Colors.grey.shade300),
+              Row(children: [
+                Container(
+                    alignment: Alignment.centerRight,
+                    height: 40,
+                    width: 100,
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_rounded),
+                      color: Colors.white,
+                      iconSize: 20,
+                      tooltip: 'Yesterday',
+                      onPressed: () {},
+                    )),
+                Container(
+                  alignment: Alignment.center,
+                  height: 40,
+                  width: MediaQuery.of(context).size.width - 200,
+                  decoration: const BoxDecoration(color: Colors.blue),
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CalendarScreen()),
+                        );
+                      },
+                      child: Text(
+                        DateTime.now().toString().split(" ")[0],
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    height: 40,
+                    width: 100,
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_forward_ios_rounded),
+                      color: Colors.white,
+                      iconSize: 20,
+                      tooltip: 'Tomorrow',
+                      onPressed: () {},
+                    )),
+              ]),
+              Divider(height: 3, thickness: 3, color: Colors.grey.shade300),
               ProgressBar(
                 completed: state.completedTasks,
                 all: state.allTasks,
               ),
+              Divider(height: 3, thickness: 3, color: Colors.grey.shade300),
               TasksList(
                 tasksList: tasksList,
               )

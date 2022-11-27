@@ -25,8 +25,8 @@ class ProgressBar extends StatelessWidget {
           decoration: const BoxDecoration(color: Colors.blue),
           child: const Center(
             child: Text(
-              "Progress:",
-              style: TextStyle(color: Colors.white),
+              "PROGRESS",
+              style: TextStyle(color: Colors.white, fontSize: 12),
             ),
           )),
       percent: completed.length / all.length,
