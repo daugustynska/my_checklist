@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:my_checklist/widgets/progress_bar.dart';
 import '../blocs/bloc_exports.dart';
 import '../models/task.dart';
 import '../widgets/tasks_list.dart';
@@ -39,29 +39,13 @@ class _TasksScreenState extends State<TasksScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               //calendar here
-              LinearPercentIndicator(
-                width: MediaQuery.of(context).size.width - 70,
-                animation: true,
-                animationDuration: 1500,
-                lineHeight: 23,
-                progressColor: Colors.blue,
-                backgroundColor: Colors.grey.shade300,
-                padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                leading: Container(
-                    width: 70,
-                    height: 23,
-                    decoration: const BoxDecoration(color: Colors.blue),
-                    child: const Center(
-                      child: Text(
-                        "Progress:",
-                        textAlign: TextAlign.center,
-                      ),
-                    )),
-                percent: state.completedTasks.length / state.allTasks.length,
-                center: Text(
-                    "${(state.completedTasks.length / state.allTasks.length * 100).toStringAsFixed(0)} %"),
+              ProgressBar(
+                completed: state.completedTasks,
+                all: state.allTasks,
               ),
-              TasksList(tasksList: tasksList)
+              TasksList(
+                tasksList: tasksList,
+              )
             ],
           ),
           floatingActionButton: FloatingActionButton(
